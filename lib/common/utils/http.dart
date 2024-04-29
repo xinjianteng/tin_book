@@ -6,7 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' hide FormData;
 
 import '../routers/routes.dart';
-import '../store/stores.dart';
+import '../store/user_store.dart';
 import '../values/values.dart';
 import '../widgets/widgets.dart';
 import 'utils.dart';

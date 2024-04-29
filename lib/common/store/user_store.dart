@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:tin_book/common/helpers/helpers.dart';
 
 import '../entity/entities.dart';
 import '../utils/utils.dart';
@@ -10,7 +11,7 @@ class UserStore extends GetxController {
   static UserStore get to => Get.find();
 
   // 用户 profile
-   Rx<UserCsgLoginResponseEntity> _profile = UserCsgLoginResponseEntity().obs;
+  final Rx<UserCsgLoginResponseEntity> _profile = UserCsgLoginResponseEntity().obs;
 
   UserCsgLoginResponseEntity get profile => _profile.value;
 
@@ -26,9 +27,8 @@ class UserStore extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    var profileOffline = StorageService.to.getString(STORAGE_USER_PROFILE_KEY);
-    if (profileOffline.isNotEmpty) {
-      _profile(UserCsgLoginResponseEntity.fromJson(jsonDecode(profileOffline)));
+    if (PrefsHelper.userProfile.isNotEmpty) {
+      _profile(UserCsgLoginResponseEntity.fromJson(jsonDecode(PrefsHelper.userProfile)));
       _isLogin.value=true;
       token=profile.access_token!;
     }
@@ -39,7 +39,7 @@ class UserStore extends GetxController {
     _isLogin.value = true;
     token=profile.access_token!;
     _profile.value=profile;
-    StorageService.to.setString(STORAGE_USER_PROFILE_KEY, jsonEncode(profile));
+    PrefsHelper.updateUserProfile(jsonEncode(profile));
   }
 
 
@@ -48,20 +48,9 @@ class UserStore extends GetxController {
   Future<void> cleanProfile() async {
     _isLogin.value = false;
     token="";
-    StorageService.to.setString(STORAGE_USER_PROFILE_KEY, "");
+    PrefsHelper.updateUserProfile('');
   }
 
-
-  /// 保存 图书信息
-  Future<void> saveBook(UploadBook book) async {
-    StorageService.to.setString(book.bookId!, jsonEncode(book));
-  }
-
-  /// 获取 图书信息
-  Future<UploadBook> getBook(String bookId) async {
-    var bookValue = StorageService.to.getString(bookId);
-    return UploadBook.fromJson(jsonDecode(bookValue));
-  }
 
 
 

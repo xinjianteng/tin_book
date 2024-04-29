@@ -4,21 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:tin_book/init_app.dart';
 
 import 'common/langs/translation_service.dart';
 import 'common/routers/pages.dart';
-import 'common/store/config_store.dart';
 import 'common/utils/utils.dart';
 import 'common/values/values.dart';
-import 'global.dart';
 
-Future<void>  main() async{
-  await Global.init();
-// Add this line
-  await ScreenUtil.ensureScreenSize();
+Future<void> main() async {
+  await initApp();
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -26,8 +22,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
-
-    logPrint('屏幕: ${ScreenUtil().screenWidth}  \n  ${ScreenUtil().screenHeight}');
 
     return ScreenUtilInit(
       designSize: const Size(
@@ -45,8 +39,7 @@ class MyApp extends StatelessWidget {
         // // 配置默认底部指示器
         // footerBuilder: () => const ClassicFooter(),
 
-
-        headerBuilder: ()=> const ClassicHeader(
+        headerBuilder: () => const ClassicHeader(
           //无特殊要求就可以用这个换下文案就行了
           height: 45.0,
           releaseText: '松开刷新',
@@ -54,7 +47,7 @@ class MyApp extends StatelessWidget {
           completeText: '刷新完成',
           idleText: '下拉刷新',
         ),
-        footerBuilder: ()=> const ClassicFooter(
+        footerBuilder: () => const ClassicFooter(
           //无特殊要求就可以用这个换下文案就行了
           loadStyle: LoadStyle.ShowWhenLoading,
           completeDuration: Duration(microseconds: 50),
@@ -88,13 +81,16 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
           translations: TranslationService(),
           navigatorObservers: [AppPages.observer],
-          localizationsDelegates: const [
-            // GlobalMaterialLocalizations.delegate,
-            // GlobalWidgetsLocalizations.delegate,
-            // GlobalCupertinoLocalizations.delegate,
+          // localizationsDelegates: const [
+          //   GlobalWidgetsLocalizations.delegate,
+          //   GlobalMaterialLocalizations.delegate,
+          //   GlobalCupertinoLocalizations.delegate,
+          // ],
+          supportedLocales: const [
+            Locale('en', 'US'),
+            Locale('zh', 'CN'),
           ],
-          supportedLocales: ConfigStore.to.languages,
-          locale: ConfigStore.to.locale,
+          locale: const Locale('zh', 'CN'),
           fallbackLocale: const Locale('en', 'US'),
           enableLog: true,
           logWriterCallback: LoggerUtil.write,
@@ -102,8 +98,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-
-
-
-
 }

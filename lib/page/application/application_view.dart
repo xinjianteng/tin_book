@@ -29,9 +29,11 @@ class _ApplicationPageState extends State<ApplicationPage> {
         () => IndexedStack(
           index: state.page,
           children: [
-            BookGroupPage(),
-            BookShelfPage(),
-            MinePage(),
+            Text('data'),
+            Text('data'),
+            Text('data'),
+            // BookShelfPage(),
+            // MinePage(),
           ],
         ),
       ),

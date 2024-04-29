@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../routers/routes.dart';
-import '../store/stores.dart';
+import '../store/user_store.dart';
 
 /// 检查是否登录
 class RouteAuthMiddleware extends GetMiddleware {

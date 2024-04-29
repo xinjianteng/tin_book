@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../common/store/stores.dart';
+import '../../common/store/user_store.dart';
 import 'mine_state.dart';
 
 class MineLogic extends GetxController {

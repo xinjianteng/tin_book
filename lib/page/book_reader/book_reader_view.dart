@@ -30,7 +30,7 @@ class _BookReaderPageState extends State<BookReaderPage> {
       ),
 
       // body: Obx(
-      //   () => Html(
+      //   () => HtmlWidget(
       //     data:getContent(),
       //   ),
       // ),

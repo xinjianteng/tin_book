@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../common/api/apis.dart';
 import '../../common/entity/entities.dart';
 import '../../common/routers/routes.dart';
-import '../../common/store/stores.dart';
+import '../../common/store/user_store.dart';
 import '../../common/utils/utils.dart';
 import 'sign_in_state.dart';
 

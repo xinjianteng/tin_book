@@ -2,11 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tin_book/common/helpers/helpers.dart';
 
 // 导入项目中定义的常量、样式、路由等
 import '../../common/routers/routes.dart';
 import '../../common/style/style.dart';
 import '../../common/values/values.dart';
+import '../../global.dart';
 import 'welcome_logic.dart';
 
 /// 欢迎页组件
@@ -25,7 +27,6 @@ class WelcomePage extends StatelessWidget {
     final logic = Get.put(WelcomeLogic());
     // 获取逻辑控制器的状态
     final state = Get.find<WelcomeLogic>().state;
-
 
     // 构建页面
     return SizedBox(
@@ -109,13 +110,15 @@ class WelcomePage extends StatelessWidget {
     return TextButton(
       style: TextButton.styleFrom(
         elevation: 1.h,
-        minimumSize: GetPlatform.isMobile
-            ? Size(140.w, 30.h):Size(120.w, 20.h),
+        minimumSize:
+            GetPlatform.isMobile ? Size(140.w, 30.h) : Size(120.w, 20.h),
         shadowColor: AppColors.white,
         foregroundColor: AppColors.white,
         side: const BorderSide(color: AppColors.white, width: 1),
       ),
       onPressed: () {
+        //更新不是第一次打开应用
+        PrefsHelper.updateIsFirstOpen(false);
         // 点击按钮时，导航到应用页面
         Get.offAll(AppRoutes.Application);
       },
