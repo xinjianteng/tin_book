@@ -45,7 +45,6 @@ class MyApp extends StatelessWidget {
         // // 配置默认底部指示器
         // footerBuilder: () => const ClassicFooter(),
 
-
         headerBuilder: ()=> const ClassicHeader(
           //无特殊要求就可以用这个换下文案就行了
           height: 45.0,
