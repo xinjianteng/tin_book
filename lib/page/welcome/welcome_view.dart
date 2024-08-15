@@ -64,7 +64,7 @@ class WelcomePage extends StatelessWidget {
       right: 0,
       child: Column(
         children: [
-          _buildFont("| 图 书  馆"), // 构建“图”字
+          _buildFont("私 人 书 房"), // 构建“图”字
         ],
       ),
     );
@@ -110,14 +110,15 @@ class WelcomePage extends StatelessWidget {
       style: TextButton.styleFrom(
         elevation: 1.h,
         minimumSize: GetPlatform.isMobile
-            ? Size(140.w, 30.h):Size(120.w, 20.h),
+            ? Size(140.w, 30.h):Size(180.w, 60.h),
         shadowColor: AppColors.white,
         foregroundColor: AppColors.white,
         side: const BorderSide(color: AppColors.white, width: 1),
       ),
       onPressed: () {
         // 点击按钮时，导航到应用页面
-        Get.offAll(AppRoutes.Application);
+        Get.offAndToNamed(AppRoutes.Application);
+
       },
       child: Text(
         '立即体验',

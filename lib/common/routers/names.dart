@@ -6,12 +6,17 @@ class AppRoutes {
 
   static const SING_IN= '/sign_in';
   static const REGISTER= '/register';
-  static const Application = '/application';
+  static const Application = '/home';
 
   static const bookDetail = '/book/detail';
-  static const reader = '/reader';
-  static const bookReader = '/book/reader';
+  static const readering = '/reader';
   static const bookMain = '/book/main';
+
+
+  static const setting = '/setting';
+  static const languageSettings = '/setting/languageSettings';
+  static const aboutApp = '/setting/aboutApp';
+  static const appearanceSettings = '/setting/appearanceSettings';
 
 
 }

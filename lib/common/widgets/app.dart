@@ -11,7 +11,7 @@ AppBar commonAppBar({
   List<Widget>? actions,
 }) {
   return AppBar(
-    foregroundColor: AppColors.btn,
+    foregroundColor: AppColors.btnSel,
     backgroundColor: AppColors.appBg,
     title: titleWidget,
     titleTextStyle: TextStyle(
@@ -20,16 +20,24 @@ AppBar commonAppBar({
         color: AppColors.title),
     leading: leading,
     actions: actions,
+    shape: const RoundedRectangleBorder(
+      side: BorderSide(
+        color: AppColors.divider,
+        width: 1,
+      ),
+    ),
   );
 }
 
 /// 10像素 Divider
 Widget dividerLine({
   Color bgColor = AppColors.divider,
-  double heightSize = 1,
+  required double height,
+  required double width,
 }) {
   return Container(
-    height: heightSize.h,
+    width: width,
+    height: height,
     decoration: BoxDecoration(
       color: bgColor,
     ),
@@ -41,7 +49,7 @@ Widget emptyView() {
     child: Container(
       color: AppColors.white,
       width: ScreenUtil().screenWidth,
-      child: Center(child: Text(AStrings.empty)),
+      child: Center(child: Text(AStrings.empty.tr)),
     ),
   );
 }

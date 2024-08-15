@@ -13,7 +13,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_localizations:
+    sdk: flutter
 
   cupertino_icons: ^1.0.6
 
@@ -24,10 +25,13 @@ dependencies:
   cookie_jar: ^4.0.8
   dio_cookie_manager: ^3.1.1
   flutter_easyloading: ^3.0.0
+  dynamic_color: ^1.7.0
+  file_picker: ^8.0.3
+  url_launcher: ^6.2.6
 
 
   # 屏幕适配  https://github.com/OpenFlutter/flutter_screenutil
-  flutter_screenutil: ^5.9.0
+  flutter_screenutil: ^5.9.3
 
   # 下拉刷新  # 刷新  https://github.com/peng8350/flutter_pulltorefresh/blob/master/README_CN.md
   pull_to_refresh: ^2.0.0
@@ -36,7 +40,7 @@ dependencies:
 
   cached_network_image: ^3.2.3
   logger: ^2.0.2
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.2.3
 
 
 
@@ -51,9 +55,22 @@ dependencies:
   sqflite_common_ffi: ^2.3.3
 
   archive: ^3.4.10
-  epub_parser: ^3.0.1
-#  flutter_widget_from_html: ^0.14.11
+#  epub_parser: ^3.0.1
 
+
+#  //ant_reader
+  shelf: ^1.4.1
+  flutter_inappwebview: ^6.0.0
+  path: ^1.9.0
+#  wakelock_plus 是一个 Dart 包，主要用于 Flutter 应用中防止屏幕锁定或休眠，这对于后台任务处理非常有用，比如播放音乐、下载文件或者执行长时间运行的任务。
+  wakelock_plus: ^1.2.5
+  epubx: ^4.0.0
+  image: ^3.3.0
+  icons_plus: ^5.0.0
+  contentsize_tabbarview:
+    git:
+      url: https://github.com/Anxcye/contentsize_tabbarview.git
+      ref: feat/animation
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +78,7 @@ dev_dependencies:
 
 
   flutter_lints: ^3.0.0
+  flutter_html: ^3.0.0-beta.2
 
 
 flutter:
@@ -75,4 +93,8 @@ flutter:
     #    - assets/ic_launcher.png
     - assets/
     - assets/desktop/
+    - assets/fonts/SourceHanSerifSC-Regular.otf
+    - assets/foliate-js/
+    - assets/foliate-js/vendor/
+    - assets/foliate-js/vendor/pdfjs/
 

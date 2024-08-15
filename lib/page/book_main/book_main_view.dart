@@ -28,7 +28,7 @@ class _BookMainPageState extends State<BookMainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: commonAppBar(
-        titleWidget: const Text(AStrings.main),
+        titleWidget:  Text(AStrings.home.tr),
         actions: [
           IconButton(
             onPressed: () {},

@@ -160,7 +160,7 @@ class CsgAPI {
     var signStr = "";
     for (var key in formData.keys) {
       var value = formData[key];
-      signStr = "${"$signStr$key=" + value!}&";
+      signStr = "${"$signStr$key=${value!}"}&";
     }
     signStr = "${signStr}secret_key=$SecretKey";
     formData["sign"] = EncryptUtils.encryptMd5(signStr).toUpperCase();

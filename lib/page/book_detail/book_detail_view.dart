@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -16,7 +18,12 @@ class BookDetailPage extends StatefulWidget {
 
 class _BookDetailPageState extends State<BookDetailPage> {
   final logic = Get.put(BookDetailLogic());
-  final state = Get.find<BookDetailLogic>().state;
+  final state = Get
+      .find<BookDetailLogic>()
+      .state;
+
+  // 屏幕宽度，用于优化布局
+  final double screenWidth = ScreenUtil().screenWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +36,8 @@ class _BookDetailPageState extends State<BookDetailPage> {
   }
 
   Widget _buildBody() {
-    return Container(
-      width: ScreenUtil().screenWidth,
+    return SizedBox(
+      width: screenWidth,
       child: Stack(
         children: [
           Positioned(
@@ -49,6 +56,21 @@ class _BookDetailPageState extends State<BookDetailPage> {
             top: 86.h,
             right: 0.h,
             child: _buildBookAuthor(),
+          ),
+          Positioned(
+            left: Dimens.margin,
+            right: Dimens.margin,
+            top: Dimens.margin + Dimens.bookHeightMAX + 12.h,
+            child: Center(
+              child: Obx(() {
+                return CircularProgressIndicator(
+                  strokeCap: StrokeCap.round,
+                  backgroundColor: AppColors.progressBg,
+                  color: AppColors.progressValue,
+                  value: state.downloadProgress.value,
+                );
+              }),
+            ),
           ),
           Positioned(
             left: Dimens.margin,
