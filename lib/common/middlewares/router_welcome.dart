@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tin_book/common/helpers/prefs_helper.dart';
 
-import '../helpers/PrefsHelper.dart';
 import '../routers/routes.dart';
-import '../store/user_store.dart';
+import '../store/stores.dart';
 
 /// 第一次欢迎页面
 class RouteWelcomeMiddleware extends GetMiddleware {
@@ -15,9 +15,10 @@ class RouteWelcomeMiddleware extends GetMiddleware {
 
   @override
   RouteSettings? redirect(String? route) {
+
     if (PrefsHelper.isFirstOpen == true) {
       return null;
-    } else if (UserStore.to.isLogin == true) {
+    } else if (UserStore.user.isLogin == true) {
       return const RouteSettings(name: AppRoutes.Application);
     } else {
       return const RouteSettings(name: AppRoutes.SING_IN);

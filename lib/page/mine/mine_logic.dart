@@ -18,7 +18,7 @@ class MineLogic extends GetxController {
     // // UserStore.to.saveProfile(user.);
     // Get.offAndToNamed(AppRoutes.INITIAL);
 
-    UserStore.to.cleanProfile();
+    UserStore.user.cleanProfile();
     Get.snackbar("提示", '退出成功');
 
   }

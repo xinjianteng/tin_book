@@ -198,8 +198,8 @@ class HttpUtil {
   /// 读取本地用户配置
   Map<String, dynamic>? getAuthorizationHeader() {
     var headers = <String, dynamic>{};
-    if (Get.isRegistered<UserStore>() && UserStore.to.isLogin == true) {
-      headers['Authorization'] = 'Bearer ${UserStore.to.token}';
+    if (Get.isRegistered<UserStore>() && UserStore.user.isLogin == true) {
+      headers['Authorization'] = 'Bearer ${UserStore.user.token}';
       headers['LoginRequired'] = 'necessary';
     } else {
       headers['Authorization'] = 'Basic YXBwOmFwcA==';

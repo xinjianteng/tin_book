@@ -1,11 +1,17 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tin_book/common/widgets/loading.dart';
 import 'package:tin_book/page/book_shelf/book_shelf_logic.dart';
 
 import '../../common/api/apis.dart';
 import '../../common/entity/entities.dart';
+import '../../common/utils/mobile_utils.dart';
 import '../../common/utils/utils.dart';
+import '../../services/book.dart';
 import '../application/application_logic.dart';
 import 'book_detail_state.dart';
 
@@ -50,36 +56,47 @@ class BookDetailLogic extends GetxController {
     // 请求成功后，处理图书信息并插入数据库
     if (response.code == 0) {
       DownloadBook book = response.data;
-      book.bookCover = state.book.bookCovers![0].toString();
-      final insertedId = await DatabaseHelper().insertBookData(book);
-      Get.find<ApplicationLogic>().state.page = 1;
-      Get.find<BookShelfLogic>().onRefresh();
-      Get.back();
+      downloadBook(book);
+
+      // book.bookCover = state.book.bookCovers![0].toString();
+      // final insertedId = await DatabaseHelper().insertBookData(book);
+      // Get.find<ApplicationLogic>().state.page = 1;
+      // Get.find<BookShelfLogic>().onRefresh();
+      // Get.back();
       // Get.snackbar('提示', "加入书架成功");
-      logPrint('加入书架成功 ID: $insertedId');
     } else {
       // 请求失败，显示错误信息
       Get.snackbar('提示', "${response.msg}");
     }
   }
 
-  /// 获取存储权限
-  ///
-  /// 返回值：如果权限被授予返回true，否则返回false
-  Future<bool> getStoragePermission() async {
-    late PermissionStatus myPermission;
+//  下载图书
+  void downloadBook(DownloadBook book) async {
+    final downloadDir = await AppUtils().getDownloadPath();
+    final savePath = '$downloadDir/${book.filePath}';
+    HttpUtil().downloadFile(book.downloadUrl, savePath,
+        onReceiveProgress: (int count, int total) {
+      logPrint("下载进度：${count / total}");
+      state.downloadProgress.value = count / total;
+      if (count == total) {
+        inputBook(savePath);
+      }
+      update();
+    });
+  }
 
-    /// 根据平台请求不同的存储权限
-    if (defaultTargetPlatform == TargetPlatform.iOS) {
-      myPermission = await Permission.photosAddOnly.request();
+  Future<void> inputBook(String bookPath) async {
+    Loading.show("正在导入图书");
+    File file = File(bookPath);
+    var value = await importBook(file);
+    if (value.id != -1) {
+      Get.find<ApplicationLogic>().state.page = 1;
+      Get.find<BookShelfLogic>().onRefresh();
+      Get.back();
+      Get.snackbar('提示', "加入书架成功");
     } else {
-      myPermission = await Permission.storage.request();
+      Get.snackbar('提示', "加入书架失败");
     }
-    // 判断权限状态并返回
-    if (myPermission != PermissionStatus.granted) {
-      return false;
-    } else {
-      return true;
-    }
+    Loading.dismiss();
   }
 }

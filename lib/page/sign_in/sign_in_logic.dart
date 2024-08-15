@@ -22,7 +22,7 @@ class SignInLogic extends GetxController {
   /// 步骤包括：清除旧用户信息、创建登录请求参数、发送登录请求、保存登录用户信息、跳转到应用页面
   loginByCsg() async {
     // 清除之前的用户信息
-    UserStore.to.cleanProfile();
+    UserStore.user.cleanProfile();
     // 创建登录请求参数，包含用户名和经过AES加密的密码
     UserCsgLoginRequestEntity csgParams = UserCsgLoginRequestEntity(
         username: "APP@+86 19959271454",
@@ -33,7 +33,7 @@ class SignInLogic extends GetxController {
 
 
     // 保存登录用户的信息
-    UserStore.to.saveProfile(csgUser).then((value) => {
+    UserStore.user.saveProfile(csgUser).then((value) => {
           // 登录成功后，跳转到应用页面
           Get.offAndToNamed(AppRoutes.Application)
         });

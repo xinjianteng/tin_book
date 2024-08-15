@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../common/routers/routes.dart';
-import '../../common/style/style.dart';
 import '../../common/values/values.dart';
 import '../../common/widgets/widgets.dart';
 import 'mine_logic.dart';
@@ -18,41 +17,50 @@ class MinePage extends StatelessWidget {
 
     return Scaffold(
       appBar: commonAppBar(
-        titleWidget: const Text(AStrings.mine),
+        titleWidget:  Text(AStrings.mine),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.toNamed(AppRoutes.setting);
+            },
+            icon: Icon(Icons.settings),
+          ),
+        ]
       ),
-      body: buildBody(),
+      body: buildBody2(),
     );
   }
 
 
-  Widget buildBody() {
-    return Container(
-      margin: EdgeInsets.all(Dimens.margin),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          SizedBox(height: Dimens.margin * 2),
-          _buildLogoutBtn("退出",logic.logout),
-          _buildLogoutBtn("所有图书",(){
+  Widget buildBody2(){
+    return SafeArea(child: ListView(
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.fromLTRB(12, 4, 12, 12),
+      children: [
+
+
+        ListItemCard(
+          trailing: const Icon(Icons.book),
+          title: '所有图书',
+          onTap: () {
             Get.toNamed(AppRoutes.bookMain);
-          }),
-
-        ],
-      ),
-    );
+          },
+        ),
+        SizedBox(height: Dimens.margin),
+        ListItemCard(
+          trailing: const Icon(Icons.logout),
+          title: AStrings.logout.tr,
+          onTap: () {
+            logic.logout();
+          },
+        ),
+      ],
+    ));
   }
 
 
 
-  Widget _buildLogoutBtn(String title, Function() function,) {
-    return TextButton(
-      style: TextStyleUnit.btnStyle(),
-      onPressed: function,
-      child: Text(
-        title,
-        style: TextStyleUnit.btnTextStyle(),
-      ),
-    );
-  }
+
+
 
 }

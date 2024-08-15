@@ -1,9 +1,31 @@
+buildscript {
+    repositories {
+        // 原有的仓库配置可能包括 mavenCentral() 或 jcenter()
+        // 添加阿里云的maven仓库
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        mavenCentral()
+        // 根据需要也可以添加 Google 的 Maven 仓库
+        google()
+    }
+    dependencies {
+        // ...
+    }
+}
+
 allprojects {
     repositories {
         google()
+        // 同样地，在这里也替换或添加仓库源
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
         mavenCentral()
     }
 }
+
+
 
 rootProject.buildDir = '../build'
 subprojects {

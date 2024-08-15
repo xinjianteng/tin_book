@@ -1,40 +1,34 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'common/langs/translation_service.dart';
+import 'common/helpers/prefs_helper.dart';
 import 'common/routers/pages.dart';
-import 'common/store/config_store.dart';
+import 'common/theme.dart';
+import 'common/translations.dart';
 import 'common/utils/utils.dart';
 import 'common/values/values.dart';
-import 'global.dart';
+import 'init_app.dart';
 
 Future<void>  main() async{
-  await Global.init();
-// Add this line
-  await ScreenUtil.ensureScreenSize();
+  await initApp();
   runApp(const MyApp());
 }
 
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget with WidgetsBindingObserver {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
-
-    logPrint('屏幕: ${ScreenUtil().screenWidth}  \n  ${ScreenUtil().screenHeight}');
-
     return ScreenUtilInit(
-      designSize: const Size(
-        Dimens.mobileWidth,
-        Dimens.mobileHeight,
-      ),
-
+      designSize: Dimens.deviceSize,
       // 是否根据宽度/高度中的最小值适配文字
       minTextAdapt: true,
       // 支持分屏尺寸
@@ -78,26 +72,40 @@ class MyApp extends StatelessWidget {
         enableLoadingWhenFailed: true,
         // 可以通过惯性滑动触发加载更多
         enableBallisticLoad: true,
-        child: GetMaterialApp(
-          title: AStrings.appName,
-          // theme: AppTheme.light,
-          debugShowCheckedModeBanner: false,
-          initialRoute: AppPages.INITIAL,
-          getPages: AppPages.routes,
-          builder: EasyLoading.init(),
-          translations: TranslationService(),
-          navigatorObservers: [AppPages.observer],
-          localizationsDelegates: const [
-            // GlobalMaterialLocalizations.delegate,
-            // GlobalWidgetsLocalizations.delegate,
-            // GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: ConfigStore.to.languages,
-          locale: ConfigStore.to.locale,
-          fallbackLocale: const Locale('en', 'US'),
-          enableLog: true,
-          logWriterCallback: LoggerUtil.write,
-        ),
+        child: DynamicColorBuilder(builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+          return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: AStrings.appName,
+            locale: const Locale('zh', 'CN'),
+            fallbackLocale: const Locale('en', 'US'),
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('zh', 'CN'),
+            ],
+            translations: AppTranslations(),
+            theme: buildLightTheme(lightDynamic),
+            darkTheme: buildDarkTheme(darkDynamic),
+            themeMode: [
+              ThemeMode.system,
+              ThemeMode.light,
+              ThemeMode.dark,
+            ][PrefsHelper.themeMode],
+            initialRoute: AppPages.INITIAL,
+            getPages: AppPages.routes,
+            builder: EasyLoading.init(),
+
+            navigatorObservers: [AppPages.observer],
+
+            enableLog: true,
+            logWriterCallback: LoggerUtil.write,
+          );
+        },),
+
       ),
     );
   }

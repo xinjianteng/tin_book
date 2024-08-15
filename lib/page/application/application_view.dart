@@ -25,6 +25,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Obx(
         () => IndexedStack(
           index: state.page,
@@ -39,7 +40,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
       ),
       bottomNavigationBar: Obx(
         () => CupertinoTabBar(
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.appBg,
           activeColor: AppColors.btn,
           inactiveColor: AppColors.btnSel,
           items: [

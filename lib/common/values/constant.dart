@@ -9,14 +9,10 @@ const CACHE_MAXCOUNT = 100;
 
 
 
-
 /// Tin看书
 /// 图书推荐请求缓存
 const String BOOK_HTTP_RECOMMEND_CACHE_KEY = 'cache_recommend_book_list';
 
 const String STORAGE_INDEX_NODE_CACHE_KEY = 'cache_index_node';
-
-/// 多语言
-const String STORAGE_LANGUAGE_CODE = 'language_code';
 
 

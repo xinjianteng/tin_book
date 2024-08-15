@@ -24,7 +24,7 @@ class AppColors {
   /// 输入框 提示字灰色
   static const Color hint = Color(0xFFD0D0D0);
   /// 应用背景色#D38C54#DDA56F
-  static const Color appBg = Color(0xFFDDA56F);
+  static const Color appBg = Color(0xFFFEFDFD);
   /// 输入框  字体颜色
   static const Color inputText = Color(0xFF333333);
   /// 标题  字体颜色
@@ -36,14 +36,18 @@ class AppColors {
   ///图书封面颜色
   static const Color bookCover = Color(0xFFD0D0D0);
   ///常规图书列表  图书名称字体颜色
-  static const Color bookName = Color(0xFF09172F);
+  static const Color bookName = Color(0xFF521E03);
   ///常规图书列表  图书作者字体颜色
   static const Color bookAuthor = Color(0xFF999999);
 
   ///分组列表  分组名称字体颜色
-  static const Color groupName = Color(0xFF09172F);
+  static const Color groupName = Color(0xFF521E03);
   ///线性
   static const Color line = Color(0xFFAEAEB0);
+
+
+  ///章节目录按钮
+  static const Color readChapterNextBtn = Color(0xFF515261);
 
 
   ///进度条背景色
@@ -55,8 +59,7 @@ class AppColors {
   /// nav 默认颜色 灰色
   static const Color navNormal =  Color(0xff959595);
 
-
-
+  static const Color readChapterBg = Color(0xFFF5F6F9);
 
 
   /// 主控件-背景 蓝色
@@ -67,8 +70,7 @@ class AppColors {
 
 
   /// nav 默认颜色 灰色
-  static const Color divider =  Color(0xffdddddd);
-
+  static const Color divider =  Color(0xffE8EBF0);
   /// 边框颜色
   static const Color inputColor = Color(0xFFF2F3F4);
 

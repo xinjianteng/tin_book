@@ -2,30 +2,40 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../values/values.dart';
 
 /// 缓存图片
-Widget netImageCached(String? path, {
+Widget netImageCached(
+  String? path, {
   double width = 48,
   double height = 48,
   double radius = 0,
+  double topRadius = 0,
+  double bottomRadius = 0,
   EdgeInsetsGeometry? margin,
 }) {
   return CachedNetworkImage(
     imageUrl: path ?? "",
-    imageBuilder: (context, imageProvider) =>
-        Container(
-          height: height,
-          width: width,
-          margin: margin,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(radius)),
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
-              // colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn),
-            ),
-          ),
+    imageBuilder: (context, imageProvider) => Container(
+      height: height,
+      width: width,
+      margin: margin,
+      decoration: BoxDecoration(
+        borderRadius: radius != 0
+            ? BorderRadius.all(Radius.circular(radius))
+            : BorderRadius.only(
+                topLeft: Radius.circular(topRadius),
+                topRight: Radius.circular(topRadius),
+                bottomLeft: Radius.circular(bottomRadius),
+                bottomRight: Radius.circular(bottomRadius),
+              ),
+        image: DecorationImage(
+          image: imageProvider,
+          fit: BoxFit.cover,
+          colorFilter: const ColorFilter.mode(AppColors.appBg, BlendMode.colorBurn),
         ),
+      ),
+    ),
     placeholder: (context, url) {
       return Container(
         alignment: Alignment.center,
@@ -49,26 +59,25 @@ Widget netImageCached(String? path, {
   );
 }
 
-
-
-Widget netImageCircleCached(String url, {
+Widget netImageCircleCached(
+  String url, {
   double radius = 50,
   EdgeInsetsGeometry? margin,
 }) {
   return CachedNetworkImage(
     imageUrl: url,
-    placeholder: (context, url) =>
-        CircleAvatar(
-          backgroundColor: Colors.amber,
-          radius: radius.r,
-        ),
-    imageBuilder: (context, image) =>
-        CircleAvatar(
-          backgroundImage: image,
-          radius: radius.r,
-        ),
+    placeholder: (context, url) => CircleAvatar(
+      backgroundColor: Colors.amber,
+      radius: radius.r,
+    ),
+    imageBuilder: (context, image) => CircleAvatar(
+      backgroundImage: image,
+      radius: radius.r,
+    ),
   );
 }
+
+
 
 
 //

@@ -1,17 +1,15 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:tin_book/common/helpers/helpers.dart';
+import 'package:tin_book/common/helpers/prefs_helper.dart';
 
 import '../entity/entities.dart';
-import '../utils/utils.dart';
-import '../values/values.dart';
 
 class UserStore extends GetxController {
-  static UserStore get to => Get.find();
+  static UserStore get user => Get.find();
 
   // 用户 profile
-  final Rx<UserCsgLoginResponseEntity> _profile = UserCsgLoginResponseEntity().obs;
+   Rx<UserCsgLoginResponseEntity> _profile = UserCsgLoginResponseEntity().obs;
 
   UserCsgLoginResponseEntity get profile => _profile.value;
 
@@ -27,8 +25,9 @@ class UserStore extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (PrefsHelper.userProfile.isNotEmpty) {
-      _profile(UserCsgLoginResponseEntity.fromJson(jsonDecode(PrefsHelper.userProfile)));
+    var profileOffline = PrefsHelper.userinfo;
+    if (profileOffline.isNotEmpty) {
+      _profile(UserCsgLoginResponseEntity.fromJson(jsonDecode(profileOffline)));
       _isLogin.value=true;
       token=profile.access_token!;
     }
@@ -39,7 +38,7 @@ class UserStore extends GetxController {
     _isLogin.value = true;
     token=profile.access_token!;
     _profile.value=profile;
-    PrefsHelper.updateUserProfile(jsonEncode(profile));
+     PrefsHelper.updateUserInfo(jsonEncode(profile));
   }
 
 
@@ -48,8 +47,10 @@ class UserStore extends GetxController {
   Future<void> cleanProfile() async {
     _isLogin.value = false;
     token="";
-    PrefsHelper.updateUserProfile('');
+    PrefsHelper.updateUserInfo('');
   }
+
+
 
 
 

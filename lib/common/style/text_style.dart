@@ -84,11 +84,11 @@ class TextStyleUnit {
     );
   }
 
-  /// 分组列表  分组名称样式
-  static TextStyle groupNameStyle() {
+  /// z章节目录样式
+  static TextStyle chapterNameStyle() {
     return TextStyle(
       color: AppColors.groupName,
-      fontSize: GetPlatform.isMobile ? 16.sp : 16,
+      fontSize: GetPlatform.isMobile ? 14.sp : 14,
     );
   }
 
