@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 import '../../common/entity/entities.dart';
 

@@ -25,7 +25,7 @@ class UserStore extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    var profileOffline = PrefsHelper.userinfo;
+    var profileOffline = Prefs().userinfo;
     if (profileOffline.isNotEmpty) {
       _profile(UserCsgLoginResponseEntity.fromJson(jsonDecode(profileOffline)));
       _isLogin.value=true;
@@ -38,7 +38,7 @@ class UserStore extends GetxController {
     _isLogin.value = true;
     token=profile.access_token!;
     _profile.value=profile;
-     PrefsHelper.updateUserInfo(jsonEncode(profile));
+     Prefs().updateUserInfo(jsonEncode(profile));
   }
 
 
@@ -47,7 +47,7 @@ class UserStore extends GetxController {
   Future<void> cleanProfile() async {
     _isLogin.value = false;
     token="";
-    PrefsHelper.updateUserInfo('');
+    Prefs().updateUserInfo('');
   }
 
 

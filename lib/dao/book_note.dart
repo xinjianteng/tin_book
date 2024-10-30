@@ -7,14 +7,40 @@ Future<int> insertBookNote(BookNote bookNote) async {
     updateBookNoteById(bookNote);
     return bookNote.id!;
   }
+
+  List<BookNote> bookNotes = await selectBookNoteByCfiAndBookId(bookNote.cfi, bookNote.bookId);
+  if (bookNotes.isNotEmpty) {
+    bookNote.id = bookNotes.last.id;
+    updateBookNoteById(bookNote);
+    return bookNote.id!;
+  }
+
   final db = await DBHelper().database;
   return db.insert('tb_notes', bookNote.toMap());
+}
+
+Future<List<BookNote>> selectBookNoteByCfiAndBookId(String cfi, int bookId) async {
+  final db = await DBHelper().database;
+  final List<Map<String, dynamic>> maps = await db.query('tb_notes', where: 'cfi = ? AND book_id = ?', whereArgs: [cfi, bookId]);
+  return List.generate(maps.length, (i) {
+    return BookNote(
+      id: maps[i]['id'],
+      bookId: maps[i]['book_id'],
+      content: maps[i]['content'],
+      cfi: maps[i]['cfi'],
+      chapter: maps[i]['chapter'],
+      type: maps[i]['type'],
+      color: maps[i]['color'],
+      createTime: DateTime.parse(maps[i]['create_time']),
+      updateTime: DateTime.parse(maps[i]['update_time']),
+    );
+  });
 }
 
 Future<List<BookNote>> selectBookNotesByBookId(int bookId) async {
   final db = await DBHelper().database;
   final List<Map<String, dynamic>> maps =
-      await db.query('tb_notes', where: 'book_id = ?', whereArgs: [bookId]);
+  await db.query('tb_notes', where: 'book_id = ?', whereArgs: [bookId]);
   return List.generate(maps.length, (i) {
     return BookNote(
       id: maps[i]['id'],
@@ -43,7 +69,7 @@ void updateBookNoteById(BookNote bookNote) async {
 Future<BookNote> selectBookNoteById(int id) async {
   final db = await DBHelper().database;
   final List<Map<String, dynamic>> maps =
-      await db.query('tb_notes', where: 'id = ?', whereArgs: [id]);
+  await db.query('tb_notes', where: 'id = ?', whereArgs: [id]);
   return BookNote(
     id: maps[0]['id'],
     bookId: maps[0]['book_id'],
@@ -79,7 +105,6 @@ Future<Map<String, int>> selectNumberOfNotesAndBooks() async {
   };
 }
 
-
 void deleteBookNoteById(int id) async {
   final db = await DBHelper().database;
   await db.delete(
@@ -88,4 +113,3 @@ void deleteBookNoteById(int id) async {
     whereArgs: [id],
   );
 }
-

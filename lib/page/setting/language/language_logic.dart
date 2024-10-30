@@ -10,7 +10,7 @@ class LanguageLogic extends GetxController {
   final LanguageState state = LanguageState();
 
 
-  Future<void> updateLanguage(String value) async {
+  void updateLanguage(String value)  {
     state.language.value = value;
     Get.updateLocale(
       {
@@ -21,7 +21,7 @@ class LanguageLogic extends GetxController {
           Get.deviceLocale ??
           const Locale('en', 'US'),
     );
-    await PrefsHelper.updateLanguage(value);
+     Prefs().updateLanguage(value);
     logPrint('[Setting] 切换语言: $value');
 
   }

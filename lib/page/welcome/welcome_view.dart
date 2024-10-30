@@ -119,6 +119,7 @@ class WelcomePage extends StatelessWidget {
         // 点击按钮时，导航到应用页面
         Get.offAndToNamed(AppRoutes.Application);
 
+
       },
       child: Text(
         '立即体验',

@@ -1,16 +1,16 @@
-
 import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:tin_book/common/helpers/helpers.dart';
 
-import '../../page/reading/get_base_path.dart';
-import '../common/utils/app_utils.dart';
-import '../common/utils/logger_util.dart';
-
-
+import '../service/book.dart';
+import '../utils/get_path/databases_path.dart';
+import '../utils/get_path/get_base_path.dart';
+import '../utils/log/common.dart';
+import 'book.dart';
 
 const CREATE_BOOK_SQL = '''
 CREATE TABLE tb_books (
@@ -82,9 +82,7 @@ CREATE TABLE tb_reading_time (
 )
 ''';
 
-class DBHelper{
-  // final db = await database;
-
+class DBHelper {
   static final DBHelper _instance = DBHelper._internal();
   static Database? _database;
 
@@ -100,15 +98,14 @@ class DBHelper{
     return _database!;
   }
 
-
   Future<Database> initDB() async {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        final databasePath = await AppUtils().getAnxDataBasesPath();
+        final databasePath = await getAnxDataBasesPath();
         final path = join(databasePath, 'app_database.db');
         return await openDatabase(
           path,
-          version: 3,
+          version: 4,
           onCreate: (db, version) async {
             onUpgradeDatabase(db, 0, version);
           },
@@ -118,8 +115,8 @@ class DBHelper{
         sqfliteFfiInit();
         var databaseFactory = databaseFactoryFfi;
 
-        final databasePath = await AppUtils().getAnxDataBasesPath();
-        logPrint('Database: database path: $databasePath');
+        final databasePath = await getAnxDataBasesPath();
+        AnxLog.info('Database: database path: $databasePath');
         final path = join(databasePath, 'app_database.db');
 
         return await databaseFactory.openDatabase(
@@ -137,7 +134,6 @@ class DBHelper{
     }
   }
 
-
   static void close() {
     _database?.close();
     _database = null;
@@ -145,10 +141,10 @@ class DBHelper{
 
   Future<void> onUpgradeDatabase(
       Database db, int oldVersion, int newVersion) async {
-    logPrint('Database: upgrade database from $oldVersion to $newVersion');
+    AnxLog.info('Database: upgrade database from $oldVersion to $newVersion');
     switch (oldVersion) {
       case 0:
-        logPrint('Database: create database version $newVersion');
+        AnxLog.info('Database: create database version $newVersion');
         await db.execute(CREATE_BOOK_SQL);
         await db.execute(CREATE_NOTE_SQL);
         await db.execute(CREATE_THEME_SQL);
@@ -204,6 +200,19 @@ class DBHelper{
             (pathAfterReplace.length < 72) ? pathAfterReplace.length : 72;
             final newPath = '${pathAfterReplace.substring(0, endIndex)}.png';
             element.rename(newPath);
+          }
+        });
+        continue case3;
+      case3:
+      case 3:
+      // remove former book style
+        Prefs().removeBookStyle();
+
+        selectBooks().then((books) {
+          for (var book in books) {
+            if (!File(book.coverFullPath).existsSync()) {
+              resetBookCover(book);
+            }
           }
         });
     }

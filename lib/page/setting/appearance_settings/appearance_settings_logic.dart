@@ -3,26 +3,41 @@ import 'package:get/get.dart';
 import 'package:tin_book/common/utils/logger_util.dart';
 
 import '../../../common/helpers/font_helper.dart';
-import '../../../common/helpers/prefs_helper.dart';
+import '../../../common/helpers/helpers.dart';
+
 
 class AppearanceSettingsLogic extends GetxController {
 
-// 主题模式
-  RxInt themeMode = (PrefsHelper.themeMode).obs;
+  // 主题模式
+  RxInt themeMode =0.obs;
   // 是否使用动态颜色
-  RxBool useDynamicColor = (PrefsHelper.useDynamicColor).obs;
+  RxBool useDynamicColor = false.obs;
   // 全局缩放
-  RxDouble textScaleFactor = (PrefsHelper.textScaleFactor).obs;
+  RxDouble textScaleFactor = 0.0.obs;
   // 主题字体
-  RxString themeFont = (PrefsHelper.themeFont).obs;
+  RxString themeFont = ''.obs;
 
   // 字体列表
   RxList fonts = <String>[].obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    // 主题模式
+     themeMode = (Prefs().themeMode).obs;
+    // 是否使用动态颜色
+     useDynamicColor = (Prefs().useDynamicColor).obs;
+    // 全局缩放
+     textScaleFactor = (Prefs().textScaleFactor).obs;
+    // 主题字体
+     themeFont = (Prefs().themeFont).obs;
+
+  }
+
   // 设置主题模式
   void updateThemeMode(int value) {
     themeMode.value = value;
-    PrefsHelper.updateThemeMode(value);
+    Prefs().updateThemeMode=value;
     Get.changeThemeMode(
       [ThemeMode.system, ThemeMode.light, ThemeMode.dark][value],
     );
@@ -36,7 +51,7 @@ class AppearanceSettingsLogic extends GetxController {
   // 设置动态颜色
   void updateDynamicColor(bool value) {
     useDynamicColor.value = value;
-    PrefsHelper.updateUseDynamicColor(value);
+    Prefs().updateUseDynamicColor=value;
     Get.forceAppUpdate();
     logPrint('[Setting] 切换动态颜色: $value');
   }
@@ -44,7 +59,7 @@ class AppearanceSettingsLogic extends GetxController {
   // 设置全局缩放
   void updateTextScaleFactor(double value) {
     textScaleFactor.value = value;
-    PrefsHelper.updateTextScaleFactor(value);
+    Prefs().updateTextScaleFactor=value;
     Get.forceAppUpdate();
     logPrint('[Setting] 切换全局缩放: $value');
   }
@@ -52,7 +67,7 @@ class AppearanceSettingsLogic extends GetxController {
   // 设置主题字体
   void updateThemeFont(String value) {
     themeFont.value = value;
-    PrefsHelper.updateThemeFont(value);
+    Prefs().updateThemeFont=value;
     Get.forceAppUpdate();
     logPrint('[Setting] 切换主题字体: $value');
   }

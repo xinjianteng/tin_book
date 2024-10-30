@@ -2,7 +2,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tin_book/models/book.dart';
 
-import '../../common/entity/entities.dart';
 import '../../common/values/dimens.dart';
 
 class BookShelfState {

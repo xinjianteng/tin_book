@@ -5,13 +5,18 @@ import '../models/book.dart';
 import 'database.dart';
 
 Future<int> insertBook(Book book) async {
+  if (book.id != -1) {
+    updateBook(book);
+    return book.id;
+  }
   final db = await DBHelper().database;
   return db.insert('tb_books', book.toMap());
 }
 
 Future<List<Book>> selectBooks() async {
   final db = await DBHelper().database;
-  final List<Map<String, dynamic>> maps = await db.query('tb_books', orderBy: 'update_time DESC');
+  final List<Map<String, dynamic>> maps =
+  await db.query('tb_books', orderBy: 'update_time DESC');
   return List.generate(maps.length, (i) {
     return Book(
       id: maps[i]['id'],
@@ -39,7 +44,8 @@ Future<List<Book>> selectNotDeleteBooks() {
 Future<void> updateBook(Book book) async {
   book.updateTime = DateTime.now();
   final db = await DBHelper().database;
-  logPrint('dao: update book: ${book.toMap()}');
+  logPrint('dao: update book: ${book.toMap()}'  );
+
   await db.update(
     'tb_books',
     book.toMap(),
@@ -74,14 +80,9 @@ Future<Book> selectBookById(int id) async {
 Future<List<String>> getCurrentBooks() async {
   final books = await selectNotDeleteBooks();
   return books.map((book) => book.filePath).toList();
-
 }
 
 Future<List<String>> getCurrentCover() async {
-  final db = await DBHelper().database;
-  final List<Map<String, dynamic>> maps = await db.query('tb_books');
-  return List.generate(maps.length, (i) {
-    return maps[i]['cover_path'];
-  });
-
+  final books = await selectNotDeleteBooks();
+  return books.map((book) => book.coverPath).toList();
 }

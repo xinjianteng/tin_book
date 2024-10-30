@@ -1,2 +1,4 @@
 library helpers;
-export 'PrefsHelper.dart';
+
+export 'prefs_helper.dart';
+

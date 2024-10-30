@@ -9,6 +9,5 @@ export 'mine/mine_view.dart';
 export 'register/register_view.dart';
 export 'sign_in/sign_in_view.dart';
 export 'welcome/welcome_view.dart';
-export 'reading/reading_view.dart';
 
 

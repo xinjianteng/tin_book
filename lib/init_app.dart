@@ -4,11 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'common/helpers/prefs_helper.dart';
-import 'common/store/stores.dart';
+import 'common/store/user_store.dart';
 import 'common/widgets/widgets.dart';
 import 'dao/database.dart';
-import 'services/book_player_server.dart';
-import 'page/reading/get_base_path.dart';
+import 'service/book_player/book_player_server.dart';
+import 'utils/error/common.dart';
+import 'utils/get_path/get_base_path.dart';
+import 'utils/log/common.dart';
 
 
 /// App 初始化
@@ -31,29 +33,16 @@ Future<void> initApp() async {
     SystemUiMode.edgeToEdge,
   );
 
-  await PrefsHelper().initPrefs();
+  await Prefs().initPrefs();
+  AnxLog.init();
+  AnxError.init();
+
   await DBHelper().initDB();
-  initBasePath();
+
   Server().start();
-
-
-  // appDio = DioHelper();
-  // final Directory dir = Platform.isAndroid
-  //     ? await getApplicationDocumentsDirectory()
-  //     : await getApplicationSupportDirectory();
-  // isar = await Isar.open(
-  //   [FeedSchema, PostSchema],
-  //   directory: dir.path,
-  // );
-  // logger.i('[Isar]: 打开数据库 ${dir.path}');
-  //
-  // /* 读取主题字体 */
-  // FontHelper.readThemeFont();
-
-
+  initBasePath();
   //旧
   Loading();
-  // await Get.putAsync<StorageService>(() => StorageService().init());
   Get.put<UserStore>(UserStore());
 
 

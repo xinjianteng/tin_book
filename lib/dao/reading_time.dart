@@ -63,7 +63,7 @@ Future<int> selectTotalNumberOfDate() async {
 Future<int> selectTotalNumberOfNotes() async {
   final db = await DBHelper().database;
   final List<Map<String, dynamic>> maps =
-      await db.rawQuery('SELECT COUNT(*) AS total_count FROM tb_notes');
+  await db.rawQuery('SELECT COUNT(*) AS total_count FROM tb_notes');
   return maps[0]['total_count'];
 }
 

@@ -5,9 +5,10 @@ import '../../../common/helpers/prefs_helper.dart';
 
 class LanguageState {
 
-  RxString language = PrefsHelper.language.obs;
+  RxString language = ''.obs;
 
   LanguageState() {
     ///Initialize variables
+   language= Prefs().language.obs;
   }
 }

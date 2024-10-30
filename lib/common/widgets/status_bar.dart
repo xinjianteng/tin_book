@@ -25,3 +25,17 @@ void showStatusBar() {
       // })
       );
 }
+
+
+
+void onlyStatusBar() {
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [
+      SystemUiOverlay.top,
+    ],
+  );
+}
+
+
+

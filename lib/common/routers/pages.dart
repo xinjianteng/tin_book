@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:tin_book/page/reader/reader_view.dart';
 import 'package:tin_book/page/setting/appearance_settings/appearance_settings_view.dart';
 import 'package:tin_book/page/setting/setting_view.dart';
 
@@ -55,17 +56,10 @@ class AppPages {
       ],
     ),
 
-    // GetPage(
-    //   name: AppRoutes.reader,
-    //   page: () => ReaderPage(),
-    //   middlewares: [
-    //     RouteAuthMiddleware(priority: 1),
-    //   ],
-    // ),
 
     GetPage(
-      name: AppRoutes.readering,
-      page: () => const ReadingPage(),
+      name: AppRoutes.reader,
+      page: () =>  ReaderPage(),
       middlewares: [
         RouteAuthMiddleware(priority: 1),
       ],

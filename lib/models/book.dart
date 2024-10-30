@@ -1,5 +1,5 @@
 
-import '../page/reading/get_base_path.dart';
+import '../utils/get_path/get_base_path.dart';
 
 class Book {
   int id;

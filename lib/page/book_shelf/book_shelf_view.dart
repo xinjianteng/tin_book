@@ -5,7 +5,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tin_book/common/widgets/item/book_item_card.dart';
 import 'package:tin_book/models/book.dart';
 
-import '../../common/entity/books.dart';
 import '../../common/utils/utils.dart';
 import '../../common/values/values.dart';
 import '../../common/widgets/widgets.dart';

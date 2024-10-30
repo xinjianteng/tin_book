@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tin_book/common/widgets/loading.dart';
@@ -11,7 +9,8 @@ import '../../common/api/apis.dart';
 import '../../common/entity/entities.dart';
 import '../../common/utils/mobile_utils.dart';
 import '../../common/utils/utils.dart';
-import '../../services/book.dart';
+import '../../dao/book.dart';
+import '../../service/book.dart';
 import '../application/application_logic.dart';
 import 'book_detail_state.dart';
 
@@ -79,24 +78,36 @@ class BookDetailLogic extends GetxController {
       logPrint("下载进度：${count / total}");
       state.downloadProgress.value = count / total;
       if (count == total) {
-        inputBook(savePath);
+        Loading.show("正在导入图书");
+        File file = File(savePath);
+        importBook(file , refreshBookList);
       }
       update();
     });
   }
 
-  Future<void> inputBook(String bookPath) async {
-    Loading.show("正在导入图书");
-    File file = File(bookPath);
-    var value = await importBook(file);
-    if (value.id != -1) {
-      Get.find<ApplicationLogic>().state.page = 1;
-      Get.find<BookShelfLogic>().onRefresh();
-      Get.back();
-      Get.snackbar('提示', "加入书架成功");
-    } else {
-      Get.snackbar('提示', "加入书架失败");
-    }
+  Future<void> refreshBookList() async {
+    // final books = await selectNotDeleteBooks();
+    // if (books.id != -1) {
+    //   Get.find<ApplicationLogic>().state.page = 1;
+    //   Get.find<BookShelfLogic>().onRefresh();
+    //   Get.back();
+    //   Get.snackbar('提示', "加入书架成功");
+    // } else {
+    //   Get.snackbar('提示', "加入书架失败");
+    // }
+    // Loading.dismiss();
+
+    Get.find<ApplicationLogic>().state.page = 1;
+    Get.find<BookShelfLogic>().onRefresh();
+    Get.back();
+    Get.snackbar('提示', "加入书架成功");
     Loading.dismiss();
+
+    // if (mounted) {
+    //   setState(() {
+    //     _books = books;
+    //   });
+    // }
   }
 }

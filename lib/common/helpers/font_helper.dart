@@ -22,8 +22,8 @@ class FontHelper {
   }
 
   /// 读取主题字体文件，注册到系统中
-  static Future<void> readThemeFont() async {
-    final String themeFontName = PrefsHelper.themeFont;
+   Future<void> readThemeFont() async {
+    String themeFontName = Prefs().themeFont;
     if (themeFontName != 'defaultFont') {
       final fontFileDir = await _getFontDir();
       _readFont('${fontFileDir.path}${_getDirSeparator()}$themeFontName',

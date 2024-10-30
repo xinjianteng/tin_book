@@ -9,7 +9,7 @@ class AppRoutes {
   static const Application = '/home';
 
   static const bookDetail = '/book/detail';
-  static const readering = '/reader';
+
   static const bookMain = '/book/main';
 
 
@@ -19,4 +19,5 @@ class AppRoutes {
   static const appearanceSettings = '/setting/appearanceSettings';
 
 
+  static const reader = '/reader';
 }

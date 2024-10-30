@@ -6,27 +6,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:tin_book/generated/l10n.dart';
 
 import 'common/helpers/prefs_helper.dart';
 import 'common/routers/pages.dart';
-import 'common/theme.dart';
+import 'common/style/style.dart';
 import 'common/translations.dart';
 import 'common/utils/utils.dart';
 import 'common/values/values.dart';
 import 'init_app.dart';
+final navigatorKey = GlobalKey<NavigatorState>();
 
-Future<void>  main() async{
+Future<void> main() async {
   await initApp();
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget with WidgetsBindingObserver {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context);
     return ScreenUtilInit(
       designSize: Dimens.deviceSize,
       // 是否根据宽度/高度中的最小值适配文字
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
         // // 配置默认底部指示器
         // footerBuilder: () => const ClassicFooter(),
 
-        headerBuilder: ()=> const ClassicHeader(
+        headerBuilder: () => const ClassicHeader(
           //无特殊要求就可以用这个换下文案就行了
           height: 45.0,
           releaseText: '松开刷新',
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
           completeText: '刷新完成',
           idleText: '下拉刷新',
         ),
-        footerBuilder: ()=> const ClassicFooter(
+        footerBuilder: () => const ClassicFooter(
           //无特殊要求就可以用这个换下文案就行了
           loadStyle: LoadStyle.ShowWhenLoading,
           completeDuration: Duration(microseconds: 50),
@@ -72,45 +72,37 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
         enableLoadingWhenFailed: true,
         // 可以通过惯性滑动触发加载更多
         enableBallisticLoad: true,
-        child: DynamicColorBuilder(builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-          return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: AStrings.appName,
-            locale: const Locale('zh', 'CN'),
-            fallbackLocale: const Locale('en', 'US'),
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [
-              Locale('en', 'US'),
-              Locale('zh', 'CN'),
-            ],
-            translations: AppTranslations(),
-            theme: buildLightTheme(lightDynamic),
-            darkTheme: buildDarkTheme(darkDynamic),
-            themeMode: [
-              ThemeMode.system,
-              ThemeMode.light,
-              ThemeMode.dark,
-            ][PrefsHelper.themeMode],
-            initialRoute: AppPages.INITIAL,
-            getPages: AppPages.routes,
-            builder: EasyLoading.init(),
-
-            navigatorObservers: [AppPages.observer],
-
-            enableLog: true,
-            logWriterCallback: LoggerUtil.write,
-          );
-        },),
-
+        child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: AStrings.appName,
+          locale: const Locale('zh', 'CN'),
+          fallbackLocale: const Locale('en', 'US'),
+          localizationsDelegates:const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          translations: AppTranslations(),
+          // 主题
+          theme: AppTheme.light,
+          // Dark主题
+          darkTheme: AppTheme.dark,
+          themeMode: [
+            ThemeMode.system,
+            ThemeMode.light,
+            ThemeMode.dark,
+          ][Prefs().themeMode],
+          initialRoute: AppPages.INITIAL,
+          getPages: AppPages.routes,
+          builder: EasyLoading.init(),
+          navigatorObservers: [AppPages.observer],
+          enableLog: true,
+          logWriterCallback: LoggerUtil.write,
+          navigatorKey: navigatorKey,
+        ),
       ),
     );
   }
-
-
-
-
 }

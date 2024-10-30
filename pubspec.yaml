@@ -46,7 +46,7 @@ dependencies:
 
   crypto: ^3.0.3
   encrypt: ^5.0.1
-  path_provider: ^2.0.15
+  path_provider: ^2.1.4
 
   permission_handler: ^11.2.0
 
@@ -71,6 +71,27 @@ dependencies:
     git:
       url: https://github.com/Anxcye/contentsize_tabbarview.git
       ref: feat/animation
+  logging: ^1.2.0
+  fluttertoast: ^8.2.8
+  intl: ^0.19.0
+  flutter_tts: ^4.0.2
+  battery_plus: ^6.1.0
+#  PhotoView使图像能够通过用户手势（如捏合、旋转和拖动）进行缩放和平移。
+  photo_view: ^0.15.0
+
+  flutter_smart_dialog: ^4.9.8+3
+
+  saver_gallery: ^3.0.6
+  share_plus: ^10.0.2
+  device_info_plus: ^10.1.2
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  flutter_colorpicker: ^1.0.3
+#  允许您在可滚动内容上放置标题，当内容滚动时，标题将粘在容器的顶部。
+  sticky_headers: ^0.3.0+2
+  chinese_font_library: ^1.2.0
+  flutter_file_dialog: ^3.0.2
 
 dev_dependencies:
   flutter_test:
@@ -97,4 +118,5 @@ flutter:
     - assets/foliate-js/
     - assets/foliate-js/vendor/
     - assets/foliate-js/vendor/pdfjs/
-
+flutter_intl:
+  enabled: true

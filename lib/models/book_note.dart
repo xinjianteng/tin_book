@@ -1,4 +1,4 @@
-class BookNote {
+class BookNote{
   int? id;
   int bookId;
   String content;
@@ -38,4 +38,15 @@ class BookNote {
       'update_time': updateTime.toIso8601String(),
     };
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'note': content,
+      'value': cfi,
+      'type': type,
+      'color': '#$color',
+    };
+  }
+
 }

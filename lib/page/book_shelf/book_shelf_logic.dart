@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -60,7 +58,7 @@ class BookShelfLogic extends GetxController {
     Future.delayed(const Duration(seconds: 1), () {
       refreshBookList();
     });
-    Get.toNamed(AppRoutes.readering, arguments: book)!.then((value) {
+    Get.toNamed(AppRoutes.reader, arguments: book)!.then((value) {
       if (value != null) {
         print('返回的数据: $value');
       }
